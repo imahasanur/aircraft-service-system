@@ -22,14 +22,14 @@ const Login = () => {
     const [isRegistered, setIsRegistered] = useState(false)
     const [userInfo, setUserInfo] = useState({})
 
-    // let history = useHistory();
-    // let location = useLocation();
-    // let { from } = location.state || { from: { pathname: "/" } };
+    let history = useHistory();
+    let location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
     
     useEffect(()=>{
         console.log("user Info", userInfo);
         if(userInfo.email){
-            fetch(`https://frozen-wave-35648.herokuapp.com/addUserInfo`, {
+            fetch(`http://localhost:4000/addUserInfo`, {
                 method:'POST',
                 headers:{'Content-Type': 'application/json'},
                 body: JSON.stringify(userInfo)
@@ -48,7 +48,6 @@ const Login = () => {
     const createUser = (email, password, data)=>{
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-        // Signed in 
             var user = userCredential.user;
             console.log("After creating user", user)
             alert("Successfully registered")
@@ -56,7 +55,6 @@ const Login = () => {
             setUserInfo(newUser);
             updateInfo(data.name);
             setIsRegistered(true);
-        // ...
         })
         .catch((error) => {
             var errorCode = error.code;
@@ -77,8 +75,8 @@ const Login = () => {
             const newUser = {name:user.displayName, email:user.email};
             setLoggedInUser(newUser);
             setIsRegistered(false);
-            // history.replace(from);
-                // ...
+            history.replace(from);
+                
         })
         .catch((error) => {
             var errorCode = error.code;
@@ -126,7 +124,8 @@ const Login = () => {
                             <div>  <input type="password" {...register("password")} placeholder="password at least 6 character" required className="m-1" /> </div>
                             <input type="submit" value={isRegistered?"Log In" : "Sign Up"} className="m-1" />
                         </form>
-                        {isRegistered ?<h6 onClick = {()=>setIsRegistered(!isRegistered)} className="text-white"> Don't have an account , <span style={{textDecoration:'underline', cursor: 'pointer'}}>Create a User </span></h6>: <h6 onClick = {()=>setIsRegistered(!isRegistered)} className="text-white">Have an Account, <span style={{textDecoration:'underline', cursor: 'pointer'}} >Log In</span></h6>}
+                        {isRegistered ?<h6 onClick = {()=>setIsRegistered(!isRegistered)} className="text-white"> Don't have an account , <span style={{textDecoration:'underline', cursor: 'pointer'}}>Create a User </span></h6>:
+                            <h6 onClick = {()=>setIsRegistered(!isRegistered)} className="text-white">Have an Account, <span style={{textDecoration:'underline', cursor: 'pointer'}} >Log In</span></h6>}
 
                     </div>
                 </div>

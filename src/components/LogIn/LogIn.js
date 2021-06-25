@@ -29,7 +29,7 @@ const Login = () => {
     useEffect(()=>{
         console.log("user Info", userInfo);
         if(userInfo.email){
-            fetch(`http://localhost:4000/addUserInfo`, {
+            fetch(`https://frozen-wave-35648.herokuapp.com/addUserInfo`, {
                 method:'POST',
                 headers:{'Content-Type': 'application/json'},
                 body: JSON.stringify(userInfo)
